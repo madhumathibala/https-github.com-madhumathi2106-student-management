@@ -1,0 +1,161 @@
+import { useState } from "react";
+import "./App.css";
+
+function App() {
+  const [students, setStudents] = useState([]);
+  const [name, setName] = useState("");
+  const [regNo, setRegNo] = useState("");
+  const [department, setDepartment] = useState("");
+
+  const addStudent = () => {
+    if (!name || !regNo || !department) {
+      alert("Please fill all fields");
+      return;
+    }
+
+    const newStudent = {
+      id: Date.now(),
+      name,
+      regNo,
+      department,
+    };
+
+    setStudents([...students, newStudent]);
+
+    setName("");
+    setRegNo("");
+    setDepartment("");
+  };
+
+  const deleteStudent = (id) => {
+    setStudents(students.filter((student) => student.id !== id));
+  };
+
+  return (
+    <div className="container">
+      <h1>Student Management System</h1>
+
+      <div className="form">
+        <input
+          type="text"
+          placeholder="Student Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+
+        <input
+          type="text"
+          placeholder="Register Number"
+          value={regNo}
+          onChange={(e) => setRegNo(e.target.value)}
+        />
+
+        <input
+          type="text"
+          placeholder="Department"
+          value={department}
+          onChange={(e) => setDepartment(e.target.value)}
+        />
+
+        <button onClick={addStudent}>Add Student</button>
+      </div>
+
+      <div className="student-list">
+        <h2>Student Records</h2>
+
+        {students.length === 0 ? (
+          <p>No students added yet.</p>
+        ) : (
+          students.map((student) => (
+            <div key={student.id} className="student-card">
+              <h3>{student.name}</h3>
+              <p>Register No: {student.regNo}</p>
+              <p>Department: {student.department}</p>
+
+              <button
+                className="delete-btn"
+                onClick={() => deleteStudent(student.id)}
+              >
+                Delete
+              </button>
+            </div>
+          ))
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default App;
+src/App.css
+CSS
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f0f2f5;
+}
+
+.container {
+  width: 80%;
+  max-width: 800px;
+  margin: 30px auto;
+  text-align: center;
+}
+
+h1 {
+  color: #333;
+}
+
+.form {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.form input {
+  width: 90%;
+  padding: 10px;
+  margin: 8px 0;
+  font-size: 16px;
+}
+
+.form button {
+  padding: 10px 20px;
+  background-color: green;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.student-card {
+  background: white;
+  margin: 10px 0;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px gray;
+}
+
+.delete-btn {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+src/main.jsx
+JSX
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./App.css";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+npm install
+npm run dev
